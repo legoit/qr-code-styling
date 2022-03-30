@@ -1,3 +1,4 @@
+import utf8 from "utf8";
 import getMode from "../tools/getMode";
 import mergeDeep from "../tools/merge";
 import downloadURI from "../tools/downloadURI";
@@ -73,7 +74,8 @@ export default class QRCodeStyling {
     }
 
     this._qr = qrcode(this._options.qrOptions.typeNumber, this._options.qrOptions.errorCorrectionLevel);
-    this._qr.addData(this._options.data, this._options.qrOptions.mode || getMode(this._options.data));
+    const data = utf8.encode(this._options.data);
+    this._qr.addData(data, this._options.qrOptions.mode || getMode(this._options.data));
     this._qr.make();
 
     if (this._options.type === drawTypes.canvas) {
