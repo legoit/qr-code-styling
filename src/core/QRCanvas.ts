@@ -6,6 +6,7 @@ import QRCornerDot from "../figures/cornerDot/canvas/QRCornerDot";
 import { RequiredOptions } from "./QROptions";
 import gradientTypes from "../constants/gradientTypes";
 import { QRCode, Gradient, FilterFunction } from "../types";
+import { QRBorder } from "../figures/border/canvas/QRBorder";
 
 const squareMask = [
   [1, 1, 1, 1, 1, 1, 1],
@@ -67,6 +68,10 @@ export default class QRCanvas {
 
   async drawQR(qr: QRCode): Promise<void> {
     const count = qr.getModuleCount();
+    if (this._options.border) {
+      this._options.margin = this._options.margin + (this._options.border.width || 0);
+    }
+
     const minSize = Math.min(this._options.width, this._options.height) - this._options.margin * 2;
     const dotSize = Math.floor(minSize / count);
     let drawImageSize = {
@@ -122,6 +127,17 @@ export default class QRCanvas {
 
     if (this._options.image) {
       this.drawImage({ width: drawImageSize.width, height: drawImageSize.height, count, dotSize });
+    }
+
+    if (this._options.border) {
+      this.drawBorder();
+    }
+  }
+
+  drawBorder(): void {
+    if (this.context && this._options.border) {
+      const qrBorder = new QRBorder(this.context, this._options.border);
+      qrBorder.draw();
     }
   }
 

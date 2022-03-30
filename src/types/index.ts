@@ -135,6 +135,11 @@ export type Options = {
     color?: string;
     gradient?: Gradient;
   };
+  border?: {
+    width?: number;
+    radius?: number;
+    color?: string;
+  };
 };
 
 export type FilterFunction = (i: number, j: number) => boolean;
