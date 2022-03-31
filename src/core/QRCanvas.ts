@@ -68,8 +68,8 @@ export default class QRCanvas {
 
   async drawQR(qr: QRCode): Promise<void> {
     const count = qr.getModuleCount();
-    if (this._options.border) {
-      this._options.margin = this._options.margin + (this._options.border.width || 0);
+    if (this._options.borderOptions) {
+      this._options.margin = this._options.margin + (this._options.borderOptions.width || 0);
     }
 
     const minSize = Math.min(this._options.width, this._options.height) - this._options.margin * 2;
@@ -129,14 +129,14 @@ export default class QRCanvas {
       this.drawImage({ width: drawImageSize.width, height: drawImageSize.height, count, dotSize });
     }
 
-    if (this._options.border) {
+    if (this._options.borderOptions) {
       this.drawBorder();
     }
   }
 
   drawBorder(): void {
-    if (this.context && this._options.border) {
-      const qrBorder = new QRBorder(this.context, this._options.border);
+    if (this.context && this._options.borderOptions && this._options.borderOptions.width) {
+      const qrBorder = new QRBorder(this.context, this._options.borderOptions);
       qrBorder.draw();
     }
   }

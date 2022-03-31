@@ -135,7 +135,7 @@ export type Options = {
     color?: string;
     gradient?: Gradient;
   };
-  border?: {
+  borderOptions?: {
     width?: number;
     radius?: number;
     color?: string;
