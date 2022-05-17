@@ -35,8 +35,8 @@ export default class QRCanvas {
   _image?: HTMLImageElement;
 
   //TODO don't pass all options to this class
-  constructor(options: RequiredOptions) {
-    this._canvas = document.createElement("canvas");
+  constructor(options: RequiredOptions, createCanvas = () => document.createElement("canvas")) {
+    this._canvas = createCanvas();
     this._canvas.width = options.width;
     this._canvas.height = options.height;
     this._options = options;

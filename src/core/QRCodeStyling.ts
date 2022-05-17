@@ -20,7 +20,7 @@ export default class QRCodeStyling {
   _canvasDrawingPromise?: Promise<void>;
   _svgDrawingPromise?: Promise<void>;
 
-  constructor(options?: Partial<Options>) {
+  constructor(options?: Partial<Options>, private readonly createCanvas = () => document.createElement("canvas")) {
     this._options = options ? sanitizeOptions(mergeDeep(defaultOptions, options) as RequiredOptions) : defaultOptions;
     this.update();
   }
@@ -55,7 +55,7 @@ export default class QRCodeStyling {
         canvas = this._canvas;
         promise = this._canvasDrawingPromise;
       } else {
-        canvas = new QRCanvas(this._options);
+        canvas = new QRCanvas(this._options, this.createCanvas);
         promise = canvas.drawQR(this._qr);
       }
 
@@ -79,7 +79,7 @@ export default class QRCodeStyling {
     this._qr.make();
 
     if (this._options.type === drawTypes.canvas) {
-      this._canvas = new QRCanvas(this._options);
+      this._canvas = new QRCanvas(this._options, this.createCanvas);
       this._canvasDrawingPromise = this._canvas.drawQR(this._qr);
       this._svgDrawingPromise = undefined;
       this._svg = undefined;
